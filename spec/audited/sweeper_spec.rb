@@ -51,13 +51,13 @@ describe AuditsController do
       expect(controller.company.audits.last.user).to eq(user)
     end
 
-    it "should record the remote address responsible for the change" do
+    it "should not record the remote address responsible for the change" do
       request.env['REMOTE_ADDR'] = "1.2.3.4"
       controller.send(:current_user=, user)
 
       post :create
 
-      expect(controller.company.audits.last.remote_address).to eq('1.2.3.4')
+      expect(controller.company.audits.last.remote_address).to eq(nil)
     end
 
     it "should record a UUID for the web request responsible for the change" do
